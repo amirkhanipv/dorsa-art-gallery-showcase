@@ -1,96 +1,126 @@
 
 import { motion } from "framer-motion";
-import { Camera, Star } from "lucide-react";
+import { GalleryHorizontal, ChevronDown, Image } from "lucide-react";
+import { Button } from "./ui/button";
 
 const Hero = () => {
+  const scrollToNextSection = () => {
+    const nextSection = document.getElementById("categories");
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section 
       id="home" 
-      className="relative min-h-screen bg-gradient-to-b from-purple-50 via-pink-50 to-white py-16 md:py-24 overflow-hidden"
+      className="relative overflow-hidden bg-gradient-to-br from-purple-100 via-pink-50 to-white"
     >
+      {/* Decorative elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-48 -right-48 w-96 h-96 bg-pink-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse-soft"></div>
-        <div className="absolute -bottom-48 -left-48 w-96 h-96 bg-purple-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-pulse-soft"></div>
+        <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-pink-200/30 filter blur-3xl"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full bg-purple-200/30 filter blur-3xl"></div>
+        <div className="absolute top-1/4 left-1/3 w-48 h-48 rounded-full bg-blue-100/30 filter blur-3xl"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
-        <div className="flex flex-col items-center text-center mb-12">
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-block p-3 mb-8 bg-white/80 backdrop-blur-sm rounded-full shadow-xl"
+      <div className="container min-h-screen mx-auto px-4 relative z-10 flex flex-col">
+        {/* Main content */}
+        <div className="flex flex-col md:flex-row items-center justify-between h-full py-16 md:py-0">
+          {/* Text content area */}
+          <motion.div 
+            className="md:w-1/2 text-center md:text-right mb-10 md:mb-0"
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7 }}
           >
-            <div className="bg-gradient-to-r from-pink-500 to-purple-500 p-4 rounded-full">
-              <Camera size={40} className="text-white" />
-            </div>
+            <motion.div 
+              className="relative inline-block mb-6"
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <span className="absolute inset-0 rounded-lg -m-2 bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 blur-md opacity-50"></span>
+              <h1 className="relative text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 bg-clip-text text-transparent leading-tight">
+                آتلیه درسا
+              </h1>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-md mx-auto md:mr-0">
+                ثبت لحظات ماندگار زندگی با هنر عکاسی و خلاقیت بی‌نظیر
+              </p>
+
+              <div className="flex flex-wrap gap-3 justify-center md:justify-end mb-6">
+                {["درسا_._", "@"].map((part, index) => (
+                  <span 
+                    key={index}
+                    className={`text-lg ${index === 0 ? 'text-pink-600 font-bold' : 'text-gray-500'}`}
+                  >
+                    {part}
+                  </span>
+                ))}
+              </div>
+              
+              <div className="flex gap-4 justify-center md:justify-end">
+                <Button 
+                  variant="default" 
+                  size="lg"
+                  className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300 btn-hover-effect"
+                >
+                  <span>نمونه کارها</span>
+                  <GalleryHorizontal className="ml-2 h-5 w-5" />
+                </Button>
+                
+                <Button 
+                  variant="outline" 
+                  size="lg"
+                  className="border-2 border-purple-300 hover:bg-purple-50 shadow-md hover:shadow-lg transition-all duration-300"
+                  onClick={scrollToNextSection}
+                >
+                  <span>رزرو وقت</span>
+                  <Image className="ml-2 h-5 w-5" />
+                </Button>
+              </div>
+            </motion.div>
           </motion.div>
           
-          <motion.h1
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-center mb-6"
-            initial={{ opacity: 0, y: 20 }}
+          {/* Image gallery area */}
+          <motion.div 
+            className="md:w-1/2 relative"
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <span className="text-gray-800">آتلیه </span>
-            <span className="bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">درسا</span>
-          </motion.h1>
-          
-          <motion.div
-            className="w-24 h-1.5 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full mb-8"
-            initial={{ width: 0 }}
-            animate={{ width: "6rem" }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-          />
-          
-          <motion.p
-            className="text-xl text-gray-600 max-w-2xl mx-auto mb-10"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-          >
-            ثبت لحظات ماندگار زندگی شما با کیفیت بی‌نظیر، خلاقیت و تجربه حرفه‌ای در آتلیه درسا
-          </motion.p>
-
-          <div className="flex flex-wrap justify-center gap-3 mb-16">
-            {["عروسی", "کودک", "بارداری", "پرتره", "فشن"].map((item, index) => (
-              <motion.div
-                key={item}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.8 + index * 0.1 }}
-                className="flex items-center px-4 py-2 bg-white backdrop-blur-sm rounded-full shadow-md border border-gray-100"
-              >
-                <Star size={16} className="text-primary ml-2" />
-                <span className="text-gray-800">{item}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        
-        <motion.div 
-          className="relative mx-auto"
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-        >
-          <div className="relative mx-auto max-w-4xl">
-            {/* Main central image */}
-            <div className="relative z-20 rounded-xl overflow-hidden border-4 border-white shadow-2xl mx-auto">
-              <img 
-                src="public/lovable-uploads/7f3f2a2a-ee13-4be5-b95f-983d92777c6b.png" 
-                alt="آتلیه درسا" 
-                className="w-full h-auto rounded-xl"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-            </div>
+            {/* Main image */}
+            <motion.div 
+              className="relative z-20 bg-white p-2 md:p-4 rounded-2xl shadow-2xl max-w-md mx-auto rotate-2"
+              whileHover={{ rotate: 0, scale: 1.02 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="rounded-xl overflow-hidden">
+                <img 
+                  src="public/lovable-uploads/7f3f2a2a-ee13-4be5-b95f-983d92777c6b.png" 
+                  alt="آتلیه درسا" 
+                  className="w-full h-auto rounded-xl"
+                />
+              </div>
+              
+              <div className="absolute top-0 right-0 bg-gradient-to-br from-pink-500 to-purple-600 text-white px-4 py-1 rounded-bl-xl rounded-tr-xl font-bold shadow-lg">
+                آتلیه درسا
+              </div>
+            </motion.div>
             
             {/* Floating images */}
-            <motion.div
-              className="absolute -bottom-6 -right-6 w-32 h-32 rounded-lg overflow-hidden shadow-xl z-30 border-2 border-white"
-              initial={{ x: 40, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1.3 }}
+            <motion.div 
+              className="absolute -bottom-10 right-10 md:-right-10 w-32 h-32 z-10 rounded-lg overflow-hidden border-4 border-white shadow-xl"
+              initial={{ opacity: 0, scale: 0.8, rotate: -8 }}
+              animate={{ opacity: 1, scale: 1, rotate: -8 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              whileHover={{ scale: 1.05, rotate: 0 }}
             >
               <img 
                 src="public/lovable-uploads/478aa4e3-6e98-4f07-8b55-1331ea4e3fc6.png" 
@@ -98,11 +128,13 @@ const Hero = () => {
                 className="w-full h-full object-cover"
               />
             </motion.div>
-            <motion.div
-              className="absolute -top-8 -left-8 w-28 h-28 rounded-lg overflow-hidden shadow-xl z-30 border-2 border-white"
-              initial={{ x: -40, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 1.5 }}
+            
+            <motion.div 
+              className="absolute -top-5 -left-5 w-28 h-28 z-10 rounded-lg overflow-hidden border-4 border-white shadow-xl"
+              initial={{ opacity: 0, scale: 0.8, rotate: 6 }}
+              animate={{ opacity: 1, scale: 1, rotate: 6 }}
+              transition={{ duration: 0.5, delay: 1 }}
+              whileHover={{ scale: 1.05, rotate: 0 }}
             >
               <img 
                 src="public/lovable-uploads/ee0560af-3059-416e-9665-fdeddc4e91a8.png" 
@@ -110,7 +142,24 @@ const Hero = () => {
                 className="w-full h-full object-cover"
               />
             </motion.div>
-          </div>
+            
+            {/* Decorative elements */}
+            <div className="absolute -bottom-10 -left-10 w-36 h-36 rounded-full bg-pink-100 opacity-60 filter blur-md"></div>
+            <div className="absolute -top-10 -right-10 w-36 h-36 rounded-full bg-purple-100 opacity-60 filter blur-md"></div>
+          </motion.div>
+        </div>
+        
+        {/* Scroll indicator */}
+        <motion.div 
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 cursor-pointer flex flex-col items-center"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 1.2 }}
+          whileHover={{ y: 5 }}
+          onClick={scrollToNextSection}
+        >
+          <span className="text-gray-500 mb-2">بیشتر</span>
+          <ChevronDown className="text-pink-500 animate-bounce" size={24} />
         </motion.div>
       </div>
       

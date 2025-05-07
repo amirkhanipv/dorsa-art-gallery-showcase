@@ -18,7 +18,9 @@ const Index = () => {
       {/* نوار رنگی تزئینی */}
       <div className="h-2 w-full bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500"></div>
       
-      <Categories />
+      <div id="categories">
+        <Categories />
+      </div>
       
       {/* نوار رنگی تزئینی با حالت موجی */}
       <div className="relative h-12 overflow-hidden bg-white">
@@ -59,8 +61,6 @@ const Index = () => {
       
       <TestimonialSection />
       <CommentsSection />
-      
-      {/* Removed the duplicate contact section */}
       
       <Footer />
       <AdminLogin />
