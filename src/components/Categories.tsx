@@ -40,6 +40,15 @@ const categories = [
   { id: "maternity", label: "بارداری" },
 ];
 
+// رنگ‌های گرادیانت برای دکمه‌های دسته‌بندی
+const categoryColors = {
+  "all": "from-pink-500 to-purple-500",
+  "wedding": "from-red-500 to-pink-400",
+  "nature": "from-green-500 to-teal-400",
+  "children": "from-blue-500 to-indigo-400",
+  "maternity": "from-yellow-500 to-amber-400"
+};
+
 const Categories = () => {
   const [activeCategory, setActiveCategory] = useState("all");
   
@@ -49,23 +58,28 @@ const Categories = () => {
     : photos.filter(photo => photo.category === activeCategory);
 
   return (
-    <section id="categories" className="py-16 px-4 bg-gradient-to-b from-white to-pink-50">
+    <section id="categories" className="py-16 px-4 bg-gradient-to-b from-white via-pink-50 to-purple-50">
       <div className="container mx-auto">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">نمونه کارها</h2>
-        <p className="text-gray-600 text-center max-w-3xl mx-auto mb-8">
-          مجموعه‌ای از برترین کارهای ما در دسته‌بندی‌های مختلف. با کلیک روی هر دسته‌بندی می‌توانید نمونه‌های مربوط به آن را مشاهده کنید.
-        </p>
+        <div className="mb-14 text-center">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+            نمونه کارهای ما
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-pink-500 to-purple-500 mx-auto mb-6 rounded-full"></div>
+          <p className="text-gray-600 max-w-3xl mx-auto">
+            مجموعه‌ای از برترین کارهای ما در دسته‌بندی‌های مختلف. با کلیک روی هر دسته‌بندی می‌توانید نمونه‌های مربوط به آن را مشاهده کنید.
+          </p>
+        </div>
         
-        {/* تب‌های دسته‌بندی */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
+        {/* تب‌های دسته‌بندی با رنگ‌های گرادیانت */}
+        <div className="flex flex-wrap justify-center gap-3 mb-10">
           {categories.map(category => (
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`px-5 py-2.5 rounded-full transition-all duration-300 ${
+              className={`px-5 py-2.5 rounded-full transition-all duration-300 shadow-md transform hover:-translate-y-1 ${
                 activeCategory === category.id 
-                  ? "bg-primary text-white shadow-lg shadow-primary/30" 
-                  : "bg-white text-gray-700 hover:bg-gray-100 border border-gray-200"
+                  ? `bg-gradient-to-r ${categoryColors[category.id]} text-white shadow-lg` 
+                  : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-200"
               }`}
             >
               {category.label}
@@ -73,60 +87,50 @@ const Categories = () => {
           ))}
         </div>
         
-        {/* کامپوننت اسلایدر برای نمایش عکس‌ها */}
+        {/* کامپوننت اسلایدر برای نمایش عکس‌ها با افکت‌های بیشتر */}
         <AnimatePresence mode="wait">
           <motion.div 
             key={activeCategory}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
             className="mt-12"
           >
             <Carousel className="w-full max-w-5xl mx-auto">
               <CarouselContent>
-                {filteredPhotos.map((photo) => (
+                {filteredPhotos.map((photo, index) => (
                   <CarouselItem key={photo.id} className="md:basis-1/2 lg:basis-1/3 py-2 px-2">
-                    <div className="group relative overflow-hidden rounded-xl bg-white shadow-md transition-all duration-300 hover:shadow-xl">
+                    <motion.div 
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                      className="group relative overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-500 hover:shadow-xl h-full"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
                       <img 
                         src={photo.src} 
                         alt={photo.alt}
-                        className="aspect-square w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="aspect-square w-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 flex items-end p-4">
-                        <h3 className="text-white font-medium">{photo.alt}</h3>
-                      </div>
-                    </div>
+                      <motion.div 
+                        initial={{ y: 20, opacity: 0 }}
+                        whileHover={{ y: 0, opacity: 1 }}
+                        className="absolute inset-0 flex items-end p-4 z-20"
+                      >
+                        <div className="bg-white/90 backdrop-blur-sm p-2 rounded-lg w-full text-center">
+                          <h3 className="text-primary font-medium">{photo.alt}</h3>
+                        </div>
+                      </motion.div>
+                    </motion.div>
                   </CarouselItem>
                 ))}
               </CarouselContent>
               <div className="mt-8 flex justify-center gap-4">
-                <CarouselPrevious className="relative static" />
-                <CarouselNext className="relative static" />
+                <CarouselPrevious className="relative static border border-primary text-primary hover:bg-primary hover:text-white" />
+                <CarouselNext className="relative static border border-primary text-primary hover:bg-primary hover:text-white" />
               </div>
             </Carousel>
-            
-            {/* نمایش گرید عکس‌ها در زیر اسلایدر */}
-            <div className="gallery-grid mt-12">
-              {filteredPhotos.map((photo, index) => (
-                <motion.div
-                  key={photo.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="image-container aspect-square"
-                >
-                  <img 
-                    src={photo.src} 
-                    alt={photo.alt} 
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="image-overlay">
-                    <h3 className="font-medium">{photo.alt}</h3>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
           </motion.div>
         </AnimatePresence>
       </div>
