@@ -8,6 +8,16 @@ export function TestimonialCard({ handleShuffle, testimonial, position, id, auth
   const dragRef = React.useRef(0);
   const isFront = position === "front";
 
+  // تابع کمکی برای گرفتن موقعیت X در تمام انواع رویدادها
+  const getClientX = (e) => {
+    // برای رویدادهای لمسی
+    if (e.touches && e.touches.length) {
+      return e.touches[0].clientX;
+    }
+    // برای رویدادهای ماوس و پوینتر
+    return e.clientX;
+  };
+
   return (
     <motion.div
       style={{
@@ -27,10 +37,10 @@ export function TestimonialCard({ handleShuffle, testimonial, position, id, auth
         bottom: 0
       }}
       onDragStart={(e) => {
-        dragRef.current = e.clientX;
+        dragRef.current = getClientX(e);
       }}
       onDragEnd={(e) => {
-        if (dragRef.current - e.clientX > 150) {
+        if (dragRef.current - getClientX(e) > 150) {
           handleShuffle();
         }
         dragRef.current = 0;
